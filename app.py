@@ -2,7 +2,7 @@ from flask import Flask, request, render_template, url_for
 
 flaskApp = Flask(__name__)
 
-# @flaskApp.route('/')
+@flaskApp.route('/')
 
 @flaskApp.route('/Main')
 def main():
