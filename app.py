@@ -1,4 +1,7 @@
 from flask import Flask, request, render_template, url_for
+import mysql.connector
+from mysql.connector import Error
+import pandas as pd
 
 flaskApp = Flask(__name__)
 
@@ -27,3 +30,20 @@ def settings():
 
 if __name__ == "__main__":
     flaskApp.run(debug=True, host='0.0.0.0', port=5221)
+
+
+
+# Code for Database
+def create_server_connection(host_name, user_name, user_password):
+    connection = None
+    try:
+        connection = mysql.connector.connect(
+            host=host_name,
+            user=user_name,
+            passwd=user_password
+        )
+        print("MySQL Database connection successful")
+    except Error as err:
+        print(f"Error: '{err}'")
+
+    return connection
