@@ -46,7 +46,6 @@
   <section id="section" style="background-color: #FFDB58; padding: 2em;">
     <div class="container px-4 text-left">
         <div class="row gx-4 justify-content-center">
-          <h3>Upload Data</h3>
           <table>
             <tr>
               <th>Student Name</th>
@@ -57,14 +56,26 @@
             <tr>
               <td>StudentName1</td>
               <td>StudentPreference1</td>
-              <td>CompanyName1</td>
-              <td>Status1</td>
+              <td>CompanyName1 - Role1</td>
+              <td>
+                <select name="status" id="status">
+                  <option value="unassigned">Unassigned</option>
+                  <option value="pending_confirmation">Pending confirmation</option>
+                  <option value="confirmed">Confirmed</option>
+                </select>
+              </td>
             </tr>
             <tr>
               <td>StudentName2</td>
               <td>StudentPreference2</td>
-              <td>CompanyName2</td>
-              <td>Status2</td>
+              <td>CompanyName2 - Role2</td>
+              <td>
+                <select name="status" id="status">
+                  <option value="unassigned">Unassigned</option>
+                  <option value="pending_confirmation">Pending confirmation</option>
+                  <option value="confirmed">Confirmed</option>
+                </select>
+              </td>
             </tr>
           </table>
         </div>
