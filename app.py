@@ -23,11 +23,26 @@ class Student(db.Model):
     def __repr__(self):
         return '<ID %r>' % self.id
 
+class Company(db.Model):
+    name = db.Column(db.String(200), primary_key=True)
+    role = db.Column(db.String(200), nullable=False)
+    contact = db.Column(db.String(200), nullable=False)
+    email = db.Column(db.String(200), nullable=False)
+
+    def __repr__(self):
+        return '<Name %r>' % self.name
+
 class StudentForm(FlaskForm):
     id = StringField(validators=[DataRequired()])
     name = StringField(validators=[DataRequired()])
     preference = StringField(validators=[DataRequired()])
     status = StringField(validators=[DataRequired()])
+
+class CompanyForm(FlaskForm):
+    name = StringField(validators=[DataRequired()])
+    role = StringField(validators=[DataRequired()])
+    contact = StringField(validators=[DataRequired()])
+    email = StringField(validators=[DataRequired()])
 
 with flaskApp.app_context():
     db.create_all()
@@ -47,8 +62,10 @@ def upload_data():
 def match_student():
     form = StudentForm()
     student_list = Student.query.order_by(Student.id)
+    company_list = Company.query.order_by(Company.name)
     return render_template('match_student.html',
-        student_list=student_list)
+        student_list=student_list,
+        company_list=company_list)
 
 @flaskApp.route('/Prepare_Email')
 def prepare_email():
