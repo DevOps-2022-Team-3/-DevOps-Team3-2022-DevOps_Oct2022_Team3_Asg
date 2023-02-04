@@ -24,10 +24,10 @@ class Student(db.Model):
         return '<ID %r>' % self.id
 
 class StudentForm(FlaskForm):
-    id = StringField(validations=[DataRequired()])
-    name = StringField(validations=[DataRequired()])
-    preference = StringField(validations=[DataRequired()])
-    status = StringField(validations=[DataRequired()])
+    id = StringField(validators=[DataRequired()])
+    name = StringField(validators=[DataRequired()])
+    preference = StringField(validators=[DataRequired()])
+    status = StringField(validators=[DataRequired()])
 
 with flaskApp.app_context():
     db.create_all()
@@ -46,7 +46,9 @@ def upload_data():
 @flaskApp.route('/Match_Student', methods=['GET', 'POST'])
 def match_student():
     form = StudentForm()
-    return render_template('match_student.html')
+    student_list = Student.query.order_by(Student.id)
+    return render_template('match_student.html',
+        student_list=student_list)
 
 @flaskApp.route('/Prepare_Email')
 def prepare_email():

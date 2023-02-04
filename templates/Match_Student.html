@@ -46,38 +46,28 @@
   <section id="section" style="background-color: #FFDB58; padding: 2em;">
     <div class="container px-4 text-left">
         <div class="row gx-4 justify-content-center">
-          <table>
-            <tr>
-              <th>Student Name</th>
-              <th>Student Preference</th>
-              <th>Company Name</th>
-              <th>Status</th>
-            </tr>
-            <tr>
-              <td>StudentName1</td>
-              <td>StudentPreference1</td>
-              <td>CompanyName1 - Role1</td>
-              <td>
-                <select name="status" id="status">
-                  <option value="unassigned">Unassigned</option>
-                  <option value="pending_confirmation">Pending confirmation</option>
-                  <option value="confirmed">Confirmed</option>
-                </select>
-              </td>
-            </tr>
-            <tr>
-              <td>StudentName2</td>
-              <td>StudentPreference2</td>
-              <td>CompanyName2 - Role2</td>
-              <td>
-                <select name="status" id="status">
-                  <option value="unassigned">Unassigned</option>
-                  <option value="pending_confirmation">Pending confirmation</option>
-                  <option value="confirmed">Confirmed</option>
-                </select>
-              </td>
-            </tr>
-          </table>
+              <table>
+                <tr>
+                  <th>Student Name</th>
+                  <th>Student Preference</th>
+                  <th>Company List</th>
+                  <th>Status</th>
+                </tr>
+                {% for student in student_list %}
+                <tr>
+                  <td>{{student.name}}</td>
+                  <td>{{student.preference}}</td>
+                  <td>CompanyName1 - Role1</td>
+                  <td>
+                    <select name="status" id="status">
+                      <option value="unassigned">Unassigned</option>
+                      <option value="pending_confirmation">Pending confirmation</option>
+                      <option value="confirmed">Confirmed</option>
+                    </select>
+                  </td>
+                </tr>
+                {% endfor %}
+              </table>
         </div>
     </div>
   </section>
