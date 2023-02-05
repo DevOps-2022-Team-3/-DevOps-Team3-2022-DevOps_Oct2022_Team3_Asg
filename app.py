@@ -64,17 +64,23 @@ def match_student():
     form = StudentForm()
     student_list = Student.query.order_by(Student.id)
     company_list = Company.query.order_by(Company.name)
-    print("test12")
-    print(request.form.get("status"))
-    print("test134")
-    if form.validate_on_submit():
-        student = Student.query.filter_by(id=form.id.data).first()
-        student.status = Student(status=form.status.data)
+    
+    if request.method == "POST":
+        # Get data from row "form"
+        id = request.form.get("id")
+        status = request.form.get("status")
+        
+        status_to_update = Student.query.filter_by(id=id).first()
+        status_to_update.status = status
+
         db.session.commit()
+
     return render_template('match_student.html',
         form=form,
         student_list=student_list,
         company_list=company_list)
+        
+    
 
 @flaskApp.route('/Prepare_Email')
 def prepare_email():
