@@ -52,16 +52,16 @@
   <section id="section" style="padding:1em; margin-bottom: 2em">
     <div class="container px-4 text-left">
         <div class="row gx-4 justify-content-center">
-            <form action = "/uploader" method = "POST" 
+            <form action = "/student_uploader" method = "POST" 
             enctype = "multipart/form-data">
               <input type = "file" name = "file" style="margin-bottom: 3em; margin-right: 5em;"/>
-              <button type="submit" class="btn btn-secondary" style="padding:0.6em;">Upload Student Data</button>
+              <button id="student-data" type="submit" class="btn btn-secondary" style="padding:0.6em;">Upload Student Data</button>
             </form>
             <br>
-            <form action = "/uploader" method = "POST" 
+            <form action = "/company_uploader" method = "POST" 
               enctype = "multipart/form-data">
               <input type = "file" name = "file" style="margin-bottom: 1em; margin-right: 5em;"/>
-              <button type="submit" class="btn btn-secondary" style="padding:0.6em;">Upload Company Data</button>
+              <button id="company-data" type="submit" class="btn btn-secondary" style="padding:0.6em;">Upload Company Data</button>
             </form>
         </div>
     </div>
