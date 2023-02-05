@@ -7,6 +7,9 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SelectField, SubmitField
 from wtforms.validators import DataRequired
 
+from werkzeug.utils import secure_filename
+from werkzeug.datastructures import  FileStorage
+
 flaskApp = Flask(__name__)
 
 ##### Database Code #####
@@ -47,7 +50,7 @@ class CompanyForm(FlaskForm):
 
 with flaskApp.app_context():
     db.create_all()
-##### Database Code #####
+########################################
 
 @flaskApp.route('/')
 
@@ -58,6 +61,13 @@ def main():
 @flaskApp.route('/Upload_Data')
 def upload_data():
     return render_template('upload_data.html')
+
+@flaskApp.route('/uploader', methods = ['GET', 'POST'])
+def upload_file():
+   if request.method == 'POST':
+      f = request.files['file']
+      f.save(secure_filename(f.filename))
+      return render_template('upload_data.html')
 
 @flaskApp.route('/Match_Student', methods=['GET', 'POST'])
 def match_student():
