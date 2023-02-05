@@ -4,7 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import text
 
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField
+from wtforms import StringField, SelectField, SubmitField
 from wtforms.validators import DataRequired
 
 flaskApp = Flask(__name__)
@@ -36,7 +36,8 @@ class StudentForm(FlaskForm):
     id = StringField(validators=[DataRequired()])
     name = StringField(validators=[DataRequired()])
     preference = StringField(validators=[DataRequired()])
-    status = StringField(validators=[DataRequired()])
+    status = SelectField('Status', choices = [('unassigned', 'Unassigned'),('pending_confirmation', 'Pending confirmation'),('confirmed','Confirmed')], validators=[DataRequired()])
+    submit = SubmitField("Submit")
 
 class CompanyForm(FlaskForm):
     name = StringField(validators=[DataRequired()])
@@ -63,7 +64,15 @@ def match_student():
     form = StudentForm()
     student_list = Student.query.order_by(Student.id)
     company_list = Company.query.order_by(Company.name)
+    print("test12")
+    print(request.form.get("status"))
+    print("test134")
+    if form.validate_on_submit():
+        student = Student.query.filter_by(id=form.id.data).first()
+        student.status = Student(status=form.status.data)
+        db.session.commit()
     return render_template('match_student.html',
+        form=form,
         student_list=student_list,
         company_list=company_list)
 

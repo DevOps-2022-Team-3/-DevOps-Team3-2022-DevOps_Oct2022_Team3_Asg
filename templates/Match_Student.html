@@ -52,20 +52,22 @@
                   <th>Student Preference</th>
                   <th>Company List</th>
                   <th>Status</th>
+                  <th></th>
                 </tr>
                 {% for student in student_list %}
                 <tr>
-                  <td>{{student.name}}</td>
-                  <td>{{student.preference}}</td>
-                  <td>CompanyName1 - Role1</td>
-                  <td>
-                    <select name="status" id="status">
-                      <option selected="selected">{{student.status}}</option>
-                      <option value="unassigned">Unassigned</option>
-                      <option value="pending_confirmation">Pending confirmation</option>
-                      <option value="confirmed">Confirmed</option>
-                    </select>
-                  </td>
+                  <form method="POST">
+                    <div name="id" id="id" hidden>{{student.id}}</div>
+                    <td name="name" id="name">{{student.name}}</td>
+                    <td name="preference" id="preference">{{student.preference}}</td>
+                    <td name="companyName" id="companyName">CompanyName1 - Role1</td>
+                    <td>
+                      {{ form.status(class="form-control") }}
+                    </td>
+                    <td>
+                      {{ form.submit(class="btn btn-secondary") }}
+                    </td>
+                  </form>
                 </tr>
                 {% endfor %}
               </table>
