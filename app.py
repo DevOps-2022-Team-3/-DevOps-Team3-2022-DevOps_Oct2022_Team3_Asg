@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, url_for
+from flask import Flask, request, render_template, url_for, redirect
 
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import text
@@ -7,12 +7,27 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SelectField, SubmitField
 from wtforms.validators import DataRequired
 
+
+
 flaskApp = Flask(__name__)
 
 ##### Database Code #####
 flaskApp.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///students.db'
+flaskApp.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///files.db'
 flaskApp.config['SECRET_KEY'] = "secret key"
 db = SQLAlchemy(flaskApp)
+
+class File(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    resume_dir = db.Column(db.LargeBinary)  #store raw data
+    email_dir = db.Column(db.LargeBinary)
+    internship_period = db.Column(db.String(120))
+
+    def __init__(self, resume_dir, email_dir, internship_period, methods=['GET','POST']):
+        self.resume_dir = resume_dir
+        self.email_dir = email_dir
+        self.internship_period = internship_period
+
 
 class Student(db.Model):
     id = db.Column(db.String(10), primary_key=True)
@@ -80,9 +95,21 @@ def match_student():
 def prepare_email():
     return render_template('prepare_email.html')
 
-@flaskApp.route('/Settings')
+@flaskApp.route('/Settings', methods=['GET','POST'])
 def settings():
+    if request.method == 'POST':
+        resume_dir = request.files['resume_dir'].read() 
+        email_dir = request.files['email_dir'].read()
+        internship_period = request.form['Internship_Period']
+
+        # Store the values in the database
+        file = File(resume_dir, email_dir, internship_period)
+        db.session.add(file)
+        db.session.commit()
     return render_template('settings.html')
+
+
+    
 
 if __name__ == "__main__":
     flaskApp.run(debug=True, host='0.0.0.0', port=5221)
