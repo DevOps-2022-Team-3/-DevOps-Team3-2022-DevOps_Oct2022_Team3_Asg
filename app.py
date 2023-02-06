@@ -41,11 +41,12 @@ class StudentForm(FlaskForm):
     status = SelectField('Status', choices = [('unassigned', 'Unassigned'),('pending_confirmation', 'Pending confirmation'),('confirmed','Confirmed')], validators=[DataRequired()])
     submit = SubmitField("Submit")
 
-class CompanyForm(FlaskForm):
-    name = StringField(validators=[DataRequired()])
-    role = StringField(validators=[DataRequired()])
-    contact = StringField(validators=[DataRequired()])
-    email = StringField(validators=[DataRequired()])
+##### Company Form (Unused) #####
+##class CompanyForm(FlaskForm):
+##    name = StringField(validators=[DataRequired()])
+##    role = StringField(validators=[DataRequired()])
+##    contact = StringField(validators=[DataRequired()])
+##    email = StringField(validators=[DataRequired()])
 
 with flaskApp.app_context():
     db.create_all()
@@ -71,9 +72,14 @@ def match_student():
         # Get data from row "form"
         id = request.form.get("id")
         status = request.form.get("status")
+        companyInfo = request.form.get("companyInfo")
+
+        if companyInfo == "None":
+            companyInfo = None
         
-        status_to_update = Student.query.filter_by(id=id).first()
-        status_to_update.status = status
+        student_to_update = Student.query.filter_by(id=id).first()
+        student_to_update.status = status
+        student_to_update.company_id = companyInfo
 
         db.session.commit()
 
