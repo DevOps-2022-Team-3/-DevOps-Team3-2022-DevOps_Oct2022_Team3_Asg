@@ -64,7 +64,14 @@
                     <input name="id" id="id" type="hidden" value="{{student.id}}">
                     <td name="name" id="name" value="{{student.name}}">{{student.name}}</td>
                     <td name="preference" id="preference" value="{{student.preference}}">{{student.preference}}</td>
-                    <td name="companyInfo" id="companyInfo" value="{{student.companyInfo}}">CompanyName - CompanyRole</td>
+                    <td>
+                      <select name="companyInfo" id="companyInfo" onchange="this.form.submit()">
+                        <option value="None" {% if student.status == null %}selected{% endif %}>None</option>
+                        {% for company in company_list %}
+                        <option value={{company.id}} {% if student.company_id == company.id %}selected{% endif %}>{{company.name}} - {{company.role}}</option>
+                        {% endfor %}
+                      </select>
+                    </td>
                     <td>
                       <select name="status" id="status" onchange="this.form.submit()">
                         <option value="Unassigned" {% if student.status == "Unassigned" %}selected{% endif %}>Unassigned</option>
