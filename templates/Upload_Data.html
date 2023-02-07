@@ -54,14 +54,14 @@
         <div class="row gx-4 justify-content-center">
             <form action = "/student_uploader" method = "POST" 
             enctype = "multipart/form-data">
-              <input type = "file" name = "file" style="margin-bottom: 3em; margin-right: 5em;"/>
-              <button id="student-data" type="submit" class="btn btn-secondary" style="padding:0.6em;">Upload Student Data</button>
+            <input type = "file" name = "file" class="btn btn-outline-secondary " accept=".xlsx" style=" margin-bottom: 3em; margin-right: 5em;"/>
+            <button id="student-data" type="submit" class="btn btn-secondary" style="margin-bottom: 3em; padding:0.6em;">Upload Student Data</button>
             </form>
             <br>
             <form action = "/company_uploader" method = "POST" 
               enctype = "multipart/form-data">
-              <input type = "file" name = "file" style="margin-bottom: 1em; margin-right: 5em;"/>
-              <button id="company-data" type="submit" class="btn btn-secondary" style="padding:0.6em;">Upload Company Data</button>
+              <input type = "file" name = "file" class="btn btn-outline-secondary " accept=".xlsx" style=" margin-bottom: 3em; margin-right: 5em;"/>
+              <button id="company-data" type="submit" class="btn btn-secondary" style="margin-bottom: 3em; padding:0.6em;">Upload Company Data</button>
             </form>
         </div>
     </div>
