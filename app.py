@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, url_for
+from flask import Flask, request, render_template, url_for, send_file
 
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import text
@@ -6,6 +6,8 @@ from sqlalchemy.sql import text
 from flask_wtf import FlaskForm
 from wtforms import StringField, SelectField, SubmitField
 from wtforms.validators import DataRequired
+
+from email.message import EmailMessage
 
 flaskApp = Flask(__name__)
 
@@ -18,13 +20,15 @@ class Student(db.Model):
     id = db.Column(db.String(10), primary_key=True)
     name = db.Column(db.String(200), nullable=False)
     preference = db.Column(db.String(200), nullable=False)
+    company_id = db.Column(db.Integer, nullable=True)
     status = db.Column(db.String(200), nullable=False)
 
     def __repr__(self):
         return '<ID %r>' % self.id
 
 class Company(db.Model):
-    name = db.Column(db.String(200), primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(200), nullable=False)
     role = db.Column(db.String(200), nullable=False)
     contact = db.Column(db.String(200), nullable=False)
     email = db.Column(db.String(200), nullable=False)
@@ -44,6 +48,14 @@ class CompanyForm(FlaskForm):
     role = StringField(validators=[DataRequired()])
     contact = StringField(validators=[DataRequired()])
     email = StringField(validators=[DataRequired()])
+
+class EmailForm(FlaskForm):
+    name = StringField(validators=[DataRequired()])
+    preference = StringField(validators=[DataRequired()])
+    company_name = StringField(validators=[DataRequired()])
+    company_role = StringField(validators=[DataRequired()])
+    company_email = StringField(validators=[DataRequired()])
+    submit = SubmitField("Submit")
 
 with flaskApp.app_context():
     db.create_all()
@@ -76,9 +88,33 @@ def match_student():
         student_list=student_list,
         company_list=company_list)
 
-@flaskApp.route('/Prepare_Email')
+@flaskApp.route('/Prepare_Email', methods=['GET', 'POST'])
 def prepare_email():
-    return render_template('prepare_email.html')
+    form = EmailForm()
+    student_list = Student.query.filter(Student.company_id != None).order_by(Student.id)
+    company_list = Company.query.order_by(Company.name)
+
+    if request.method == "POST":
+        # Get data from row "form"
+        name = request.form.get("name")
+        preference = request.form.get("preference")
+        company_name = request.form.get("company_name")
+        company_role = request.form.get("company_role")
+        company_email = request.form.get("company_email")
+
+        email_msg = EmailMessage()
+        email_msg.set_content("To HR Representative from " + company_name + ": \n\n" + name + " is interested in taking an internship at " + company_name + "for the role of " + company_role)
+        email_msg['Subject'] = "Student Internship"
+        email_msg['From'] = "sender@example.com"
+        email_msg['To'] = company_email
+        with open("email.msg", "wb") as f:
+            f.write(email_msg.as_bytes())
+        return send_file("email.msg", as_attachment=True)
+
+    return render_template('prepare_email.html',
+        form=form,
+        student_list=student_list,
+        company_list=company_list)
 
 @flaskApp.route('/Settings')
 def settings():

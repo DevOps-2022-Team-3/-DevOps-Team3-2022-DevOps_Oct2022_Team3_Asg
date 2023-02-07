@@ -46,7 +46,33 @@
   <section id="section" style="background-color: #FFDB58; padding: 2em;">
     <div class="container px-4 text-left">
         <div class="row gx-4 justify-content-center">
-            <h3>Page Content</h3>
+          <table>
+            <tr>
+              <th>Student Name</th>
+              <th>Student Preference</th>
+              <th>Company Name</th>
+              <th>Company Role</th>
+              <th></th>
+            </tr>
+            {% for student in student_list %}
+              <tr>
+                <form method="POST">
+                  <td name="name" id="name" value="{{student.name}}">{{student.name}}</td>
+                  <td name="preference" id="preference" value="{{student.preference}}">{{student.preference}}</td>
+                  {% for company in company_list %}
+                  {% if student.company_id == company.id %}
+                  <td name="company_name" id="company_name" value="{{company.name}}">{{company.name}}</td>
+                  <td name="company_role" id="company_role" value="{{company.role}}">{{company.role}}</td>
+                  <input name="company_email" id="company_email" type="hidden" value="{{student.email}}">
+                  {% endif %}
+                  {% endfor %}
+                  <td>
+                    {{ form.submit(class="btn btn-secondary") }}
+                  </td>
+                </form>
+              </tr>
+            {% endfor %}
+          </table>
         </div>
     </div>
   </section>
