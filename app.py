@@ -34,6 +34,14 @@ class Company(db.Model):
     def __repr__(self):
         return '<Name %r>' % self.name
 
+##### Information Table (Unused) #####
+##class Information(db.Model):
+##    student_id = db.Column(db.Integer, primary_key=True)
+##    company_id = db.Column(db.Integer, nullable=False)
+##
+##    def __repr__(self):
+##        return '<ID %r>' % self.student_id
+
 class StudentForm(FlaskForm):
     id = StringField(validators=[DataRequired()])
     name = StringField(validators=[DataRequired()])
