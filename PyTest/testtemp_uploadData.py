@@ -10,7 +10,7 @@ def test_setUp():
     driver = webdriver.Chrome(service=Service(executable_path=ChromeDriverManager().install()))
 
     global linkToReturnTo
-    linkToReturnTo = "http://127.0.0.1:5221/Main"
+    linkToReturnTo = "http://127.0.0.1:5221/Upload_Data"
     driver.get(linkToReturnTo)
 
 ################## Test navigation bar (Keep this for every page) ##################
@@ -40,20 +40,11 @@ def test_enterSettings():
     assert driver.title == "Settings"
 ################## Test navigation bar (Keep this for every page) ##################
 
-def test_main_enterUploadData():
-    driver.get(linkToReturnTo)
-    goToNavPage("main_upload_data_btn")
-    assert driver.title == "Upload Data"
+def test_uploadStudentData():
+    print()
 
-def test_main_enterMatchStudent():
-    driver.get(linkToReturnTo)
-    goToNavPage("main_match_student_btn")
-    assert driver.title == "Match Students"
-
-def test_main_enterPrepareEmail():
-    driver.get(linkToReturnTo)
-    goToNavPage("main_prepare_email_btn")
-    assert driver.title == "Prepare Email"
+def test_uploadCompanyData():
+    print()
 
 ######## End Code (Keep this for every page) ########
 def test_end():

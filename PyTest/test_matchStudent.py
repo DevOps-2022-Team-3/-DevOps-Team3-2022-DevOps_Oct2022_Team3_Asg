@@ -5,12 +5,14 @@ from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 
+from selenium.webdriver.support.select import Select
+
 def test_setUp():
     global driver
     driver = webdriver.Chrome(service=Service(executable_path=ChromeDriverManager().install()))
 
     global linkToReturnTo
-    linkToReturnTo = "http://127.0.0.1:5221/Main"
+    linkToReturnTo = "http://127.0.0.1:5221/Match_Student"
     driver.get(linkToReturnTo)
 
 ################## Test navigation bar (Keep this for every page) ##################
@@ -40,20 +42,20 @@ def test_enterSettings():
     assert driver.title == "Settings"
 ################## Test navigation bar (Keep this for every page) ##################
 
-def test_main_enterUploadData():
+def test_updateCompanyInfo():
     driver.get(linkToReturnTo)
-    goToNavPage("main_upload_data_btn")
-    assert driver.title == "Upload Data"
+    #Find table
+    table = driver.find_element(by=By.ID, value="match-student-table")
+    students = table.find_elements(by=By.CLASS_NAME, value="student")
 
-def test_main_enterMatchStudent():
-    driver.get(linkToReturnTo)
-    goToNavPage("main_match_student_btn")
-    assert driver.title == "Match Students"
+    for student in students:
+        companyInfo = student.find_element(by=By.CLASS_NAME, value="companyInfo")
+        if Select(companyInfo).first_selected_option != "Unassigned":
+            companyInfo.click()
 
-def test_main_enterPrepareEmail():
-    driver.get(linkToReturnTo)
-    goToNavPage("main_prepare_email_btn")
-    assert driver.title == "Prepare Email"
+
+def test_updateStatus():
+    print()
 
 ######## End Code (Keep this for every page) ########
 def test_end():
