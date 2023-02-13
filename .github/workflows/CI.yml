@@ -28,6 +28,7 @@ jobs:
         ls
     - name: test with pytest
       run: |
+        start python app.py
         pytest test.py -v -cov
         pytest test.py -v -cov --junitxml=report.xml
 
