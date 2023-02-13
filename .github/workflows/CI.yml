@@ -11,8 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/setup-python@v2
-    with:
-       python-version: 3.11.1
+      with: python-version: 3.11.1
     - name: Install Libraries
       run: |
         pip install pandas
@@ -23,7 +22,7 @@ jobs:
       uses: actions/checkout@v2
       with:
         repository: DevOps-Team3-2022/DevOps_Oct2022_Team3_Assignment
-     - name: list our contents
+   - name: list our contents
        run: |
          ls
     - name: test with pytest
