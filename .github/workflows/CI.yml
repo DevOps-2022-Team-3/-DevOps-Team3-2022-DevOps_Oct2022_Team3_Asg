@@ -2,7 +2,9 @@ name: CI for Internship Allocation
 
 on:
   push:
-    branches: [main]
+    branches:
+      - main
+      - yml-file
 
 jobs:
   build:
