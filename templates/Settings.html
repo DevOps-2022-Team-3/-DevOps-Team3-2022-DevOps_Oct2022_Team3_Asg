@@ -48,6 +48,13 @@
       </div>
     </header>
 
+    {% if error_message %}
+    <div class="alert alert-danger" role="alert">
+      {{ error_message }}
+    </div>
+  {% endif %}
+
+
     <!-- Section -->
     <section id="section" style="background-color: #FFDB58; padding: 2em;">
       <div class="container px-4 text-left">
