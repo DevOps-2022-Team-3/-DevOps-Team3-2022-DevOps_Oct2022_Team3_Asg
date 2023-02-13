@@ -23,16 +23,16 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ms-auto">
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href={{url_for('upload_data')}}>Upload Data</a>
+                <a id="upload-data-btn" class="nav-link active" aria-current="page" href={{url_for('upload_data')}}>Upload Data</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href={{url_for('match_student')}}>Match Students</a>
+                <a id="match-student-btn" class="nav-link active" aria-current="page" href={{url_for('match_student')}}>Match Students</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href={{url_for('prepare_email')}}>Prepare Emails</a>
+                <a id="prepare-email-btn" class="nav-link active" aria-current="page" href={{url_for('prepare_email')}}>Prepare Emails</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href={{url_for('settings')}}>Settings</a>
+                <a id="settings-btn" class="nav-link active" aria-current="page" href={{url_for('settings')}}>Settings</a>
               </li>
             </ul>
           </div>
@@ -56,7 +56,7 @@
               <div class="card-body">
                 <h5 class="card-title">Upload Data</h5>
                 <p class="card-text">Upload student and company internship data.</p>
-                <a href={{url_for('upload_data')}} class="btn btn-secondary">Go</a>
+                <a id="main_upload_data_btn" href={{url_for('upload_data')}} class="btn btn-secondary">Go</a>
               </div>
             </div>
           </div>
@@ -65,7 +65,7 @@
               <div class="card-body">
                 <h5 class="card-title">Match Students</h5>
                 <p class="card-text">Assign students to an internship company.</p>
-                <a href={{url_for('match_student')}} class="btn btn-secondary">Go</a>
+                <a id="main_match_student_btn" href={{url_for('match_student')}} class="btn btn-secondary">Go</a>
               </div>
             </div>
           </div>
@@ -74,7 +74,7 @@
               <div class="card-body">
                 <h5 class="card-title">Prepare Email</h5>
                 <p class="card-text">Prepare email to send with student's resume.</p>
-                <a href={{url_for('prepare_email')}} class="btn btn-secondary">Go</a>
+                <a id="main_prepare_email_btn" href={{url_for('prepare_email')}} class="btn btn-secondary">Go</a>
               </div>
             </div>
           </div>

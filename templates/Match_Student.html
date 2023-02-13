@@ -23,16 +23,16 @@
         <div class="collapse navbar-collapse" id="navbarResponsive">
             <ul class="navbar-nav ms-auto">
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href={{url_for('upload_data')}}>Upload Data</a>
+                <a id="upload-data-btn" class="nav-link active" aria-current="page" href={{url_for('upload_data')}}>Upload Data</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href={{url_for('match_student')}}>Match Students</a>
+                <a id="match-student-btn" class="nav-link active" aria-current="page" href={{url_for('match_student')}}>Match Students</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href={{url_for('prepare_email')}}>Prepare Emails</a>
+                <a id="prepare-email-btn" class="nav-link active" aria-current="page" href={{url_for('prepare_email')}}>Prepare Emails</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href={{url_for('settings')}}>Settings</a>
+                <a id="settings-btn" class="nav-link active" aria-current="page" href={{url_for('settings')}}>Settings</a>
               </li>
             </ul>
           </div>
@@ -51,7 +51,7 @@
   <section id="section" style="background-color: #FFDB58; padding: 2em;">
     <div class="container px-4 text-left">
         <div class="row gx-4 justify-content-center">
-              <table>
+              <table id="match-student-table">
                 <tr>
                   <th>Student Name</th>
                   <th>Student Preference</th>
@@ -59,7 +59,7 @@
                   <th>Status</th>
                 </tr>
                 {% for student in student_list %}
-                <tr>
+                <tr class="student">
                   <form method="POST">
                     <input name="id" id="id" type="hidden" value="{{student.id}}">
                     <td name="name" id="name" value="{{student.name}}">{{student.name}}</td>
