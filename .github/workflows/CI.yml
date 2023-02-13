@@ -22,7 +22,7 @@ jobs:
     - name: Checkout Own Repo
       uses: actions/checkout@v2
       with:
-        repository: DevOps-Team3-2022/DevOps_Oct2022_Team3_Assignment
+        repository: DevOps-2022-Team-3/-DevOps-Team3-2022-DevOps_Oct2022_Team3_Asg
     - name: list our contents
         run: |
           ls
