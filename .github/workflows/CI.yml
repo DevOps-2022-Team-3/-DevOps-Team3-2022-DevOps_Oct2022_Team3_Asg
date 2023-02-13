@@ -40,7 +40,7 @@ jobs:
         pytest PyTest/testtemp_matchStudent.py -v -cov --junitxml=report.xml
 
     - if: ${{ failure() }}
-      uses: JasonEtco/create-an-issue@v2
+      uses: JasonEtco/create-an-issue@v2.9.1
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
