@@ -8,7 +8,13 @@
 
 <!-- CSS only -->
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.1/dist/css/bootstrap.min.css">
+<style>
+  body {
+    background-color: #FFDB58;
+  }
+</style>
 </head>
+
 <body>
   <!-- NavBar-->
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark" id="mainNav">
@@ -42,13 +48,24 @@
     </div>
   </header>
 
-  <!-- Section -->
-  <section id="section" style="background-color: #FFDB58; padding: 2em;">
+  <!-- Section: File Upload -->
+  <section id="section" style="padding:1em; margin-bottom: 2em">
     <div class="container px-4 text-left">
         <div class="row gx-4 justify-content-center">
-            <h3>Page Content</h3>
+            <form action = "/student_uploader" method = "POST" 
+            enctype = "multipart/form-data">
+            <input type = "file" name = "file" class="btn btn-outline-secondary " accept=".xlsx" style=" margin-bottom: 3em; margin-right: 5em;"/>
+            <button id="student-data" type="submit" class="btn btn-secondary" style="margin-bottom: 3em; padding:0.6em;">Upload Student Data</button>
+            </form>
+            <br>
+            <form action = "/company_uploader" method = "POST" 
+              enctype = "multipart/form-data">
+              <input type = "file" name = "file" class="btn btn-outline-secondary " accept=".xlsx" style=" margin-bottom: 3em; margin-right: 5em;"/>
+              <button id="company-data" type="submit" class="btn btn-secondary" style="margin-bottom: 3em; padding:0.6em;">Upload Company Data</button>
+            </form>
         </div>
     </div>
   </section>
+
 </body>
 </html>
