@@ -17,7 +17,7 @@ jobs:
       run: |
         pip install pandas
         pip install flask
-        pip install sql-alchemy
+        pip install SQLAlchemy
         pip install flask-wtf
     - name: Checkout Own Repo
       uses: actions/checkout@v2
