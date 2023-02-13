@@ -25,7 +25,7 @@ jobs:
         repository: DevOps-2022-Team-3/-DevOps-Team3-2022-DevOps_Oct2022_Team3_Asg
     - name: list our contents
         run: |
-          ls
+        ls
     - name: test with pytest
        run: |
          pytest test.py -v -cov
