@@ -26,11 +26,13 @@ jobs:
     - name: list our contents
       run: |
         ls
+    - name: run app.py
+      run: |
+        python app.py &
     - name: test with pytest
       run: |
-        start python app.py
-        pytest test.py -v -cov
-        pytest test.py -v -cov --junitxml=report.xml
+        pytest PyTest/test_main.py -v -cov --junitxml=report.xml
+        pytest PyTest/testtemp_matchStudent.py -v -cov --junitxml=report.xml
 
     - if: ${{ failure() }}
       uses: JasonEtco/create-an-issue@v2
