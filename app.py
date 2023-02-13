@@ -22,13 +22,15 @@ class Student(db.Model):
     id = db.Column(db.String(10), primary_key=True)
     name = db.Column(db.String(200), nullable=False)
     preference = db.Column(db.String(200), nullable=False)
+    company_id = db.Column(db.Integer, nullable=True)
     status = db.Column(db.String(200), nullable=False)
 
     def __repr__(self):
         return '<ID %r>' % self.id
 
 class Company(db.Model):
-    name = db.Column(db.String(200), primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(200), nullable=False)
     role = db.Column(db.String(200), nullable=False)
     contact = db.Column(db.String(200), nullable=False)
     email = db.Column(db.String(200), nullable=False)
@@ -43,11 +45,12 @@ class StudentForm(FlaskForm):
     status = SelectField('Status', choices = [('unassigned', 'Unassigned'),('pending_confirmation', 'Pending confirmation'),('confirmed','Confirmed')], validators=[DataRequired()])
     submit = SubmitField("Submit")
 
-class CompanyForm(FlaskForm):
-    name = StringField(validators=[DataRequired()])
-    role = StringField(validators=[DataRequired()])
-    contact = StringField(validators=[DataRequired()])
-    email = StringField(validators=[DataRequired()])
+##### Company Form (Unused) #####
+##class CompanyForm(FlaskForm):
+##    name = StringField(validators=[DataRequired()])
+##    role = StringField(validators=[DataRequired()])
+##    contact = StringField(validators=[DataRequired()])
+##    email = StringField(validators=[DataRequired()])
 
 with flaskApp.app_context():
     db.create_all()
@@ -116,17 +119,28 @@ def match_student():
     form = StudentForm()
     student_list = Student.query.order_by(Student.id)
     company_list = Company.query.order_by(Company.name)
-    print("test12")
-    print(request.form.get("status"))
-    print("test134")
-    if form.validate_on_submit():
-        student = Student.query.filter_by(id=form.id.data).first()
-        student.status = Student(status=form.status.data)
+    
+    if request.method == "POST":
+        # Get data from row "form"
+        id = request.form.get("id")
+        status = request.form.get("status")
+        companyInfo = request.form.get("companyInfo")
+
+        if companyInfo == "None":
+            companyInfo = None
+        
+        student_to_update = Student.query.filter_by(id=id).first()
+        student_to_update.status = status
+        student_to_update.company_id = companyInfo
+
         db.session.commit()
+
     return render_template('match_student.html',
         form=form,
         student_list=student_list,
         company_list=company_list)
+        
+    
 
 @flaskApp.route('/Prepare_Email')
 def prepare_email():
