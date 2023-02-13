@@ -91,7 +91,7 @@ def match_student():
 @flaskApp.route('/Prepare_Email', methods=['GET', 'POST'])
 def prepare_email():
     form = EmailForm()
-    student_list = Student.query.filter(Student.company_id != None).order_by(Student.id)
+    student_list = Student.query.filter(Student.company_id.isnot(None)).order_by(Student.id)
     company_list = Company.query.order_by(Company.name)
 
     if request.method == "POST":
