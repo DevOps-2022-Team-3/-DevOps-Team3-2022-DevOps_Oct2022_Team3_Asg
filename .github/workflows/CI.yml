@@ -24,6 +24,10 @@ jobs:
         pip install SQLAlchemy
         pip install flask-wtf
         pip install Flask-SQLAlchemy
+    - name: Install Chrome
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y google-chrome-stable
     - name: Checkout Own Repo
       uses: actions/checkout@v2
       with:
