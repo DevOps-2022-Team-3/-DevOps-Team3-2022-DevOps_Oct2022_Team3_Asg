@@ -17,17 +17,13 @@ jobs:
        pip install flask
        pip install sql-alchemy
        pip install flask-wtf
-   - name: Install Chrome
-     run: |
-       sudo apt-get update
-       sudo apt-get install -y google-chrome-stable
    - name: Checkout Own Repo
      uses: actions/checkout@v2
      with:
        repository: DevOps-Team3-2022/DevOps_Oct2022_Team3_Assignment
-    - name: list our contents
-      run: |
-        ls
+   - name: list our contents
+     run: |
+       ls
    - name: test with pytest
      run: |
        pytest test.py -v -cov
