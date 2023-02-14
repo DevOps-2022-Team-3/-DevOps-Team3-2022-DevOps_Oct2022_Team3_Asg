@@ -1,4 +1,7 @@
-from flask import Flask, request, render_template, url_for, redirect
+import os
+from os.path import join, dirname, realpath
+from flask import Flask, request, render_template, url_for, flash, redirect
+
 
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.sql import text
@@ -7,8 +10,9 @@ from flask_wtf import FlaskForm
 from wtforms import StringField, SelectField, SubmitField
 from wtforms.validators import DataRequired
 import requests
-import os
 
+
+import pandas as pd
 
 flaskApp = Flask(__name__)
 
@@ -36,13 +40,15 @@ class Student(db.Model):
     id = db.Column(db.String(10), primary_key=True)
     name = db.Column(db.String(200), nullable=False)
     preference = db.Column(db.String(200), nullable=False)
+    company_id = db.Column(db.Integer, nullable=True)
     status = db.Column(db.String(200), nullable=False)
 
     def __repr__(self):
         return '<ID %r>' % self.id
 
 class Company(db.Model):
-    name = db.Column(db.String(200), primary_key=True)
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(200), nullable=False)
     role = db.Column(db.String(200), nullable=False)
     contact = db.Column(db.String(200), nullable=False)
     email = db.Column(db.String(200), nullable=False)
@@ -57,15 +63,16 @@ class StudentForm(FlaskForm):
     status = SelectField('Status', choices = [('unassigned', 'Unassigned'),('pending_confirmation', 'Pending confirmation'),('confirmed','Confirmed')], validators=[DataRequired()])
     submit = SubmitField("Submit")
 
-class CompanyForm(FlaskForm):
-    name = StringField(validators=[DataRequired()])
-    role = StringField(validators=[DataRequired()])
-    contact = StringField(validators=[DataRequired()])
-    email = StringField(validators=[DataRequired()])
+##### Company Form (Unused) #####
+##class CompanyForm(FlaskForm):
+##    name = StringField(validators=[DataRequired()])
+##    role = StringField(validators=[DataRequired()])
+##    contact = StringField(validators=[DataRequired()])
+##    email = StringField(validators=[DataRequired()])
 
 with flaskApp.app_context():
     db.create_all()
-##### Database Code #####
+########################################
 
 @flaskApp.route('/')
 
@@ -75,26 +82,85 @@ with flaskApp.app_context():
 def main():
     return render_template('main.html')
 
+##### Data Upload Code #####
 @flaskApp.route('/Upload_Data')
 def upload_data():
     return render_template('upload_data.html')
+
+# Upload folder
+UPLOAD_FOLDER = 'static/files'
+flaskApp.config['UPLOAD_FOLDER'] =  UPLOAD_FOLDER
+
+# File upload for student data
+@flaskApp.route('/student_uploader', methods = ['GET', 'POST'])
+def upload_student_file():
+    if request.method == 'POST':
+        uploaded_file = request.files['file']
+        if uploaded_file.filename != '':
+            student_col = ['id', 'name', 'preference']
+            studentData = pd.read_excel(uploaded_file, names=student_col, header=None)
+            for i, row in studentData.iterrows():
+                id = str(row[0])
+                name = str(row[1])
+                preference = str(row[2])
+                status = 'unassigned'
+                student = Student(id=id,
+                                name=name,
+                                preference=preference,
+                                status=status)
+                db.session.add(student)
+                db.session.commit()
+        return redirect('Upload_Data')
+
+# File upload for company data
+@flaskApp.route('/company_uploader', methods = ['GET', 'POST'])
+def upload_company_file():
+    if request.method == 'POST':
+        uploaded_file = request.files['file']
+        if uploaded_file.filename != '':
+            company_col = ['name', 'role', 'contact', 'email']
+            companyData = pd.read_excel(uploaded_file, names=company_col, header=None)
+            for i, row in companyData.iterrows():
+                name = str(row[0])
+                role = str(row[1])
+                contact = str(row[2])
+                email = 'unassigned'
+                company = Student(name=name,
+                                role=role,
+                                contact=contact,
+                                email=email)
+                db.session.add(company)
+                db.session.commit()
+        return redirect('Upload_Data')
+########################################
 
 @flaskApp.route('/Match_Student', methods=['GET', 'POST'])
 def match_student():
     form = StudentForm()
     student_list = Student.query.order_by(Student.id)
     company_list = Company.query.order_by(Company.name)
-    print("test12")
-    print(request.form.get("status"))
-    print("test134")
-    if form.validate_on_submit():
-        student = Student.query.filter_by(id=form.id.data).first()
-        student.status = Student(status=form.status.data)
+    
+    if request.method == "POST":
+        # Get data from row "form"
+        id = request.form.get("id")
+        status = request.form.get("status")
+        companyInfo = request.form.get("companyInfo")
+
+        if companyInfo == "None":
+            companyInfo = None
+        
+        student_to_update = Student.query.filter_by(id=id).first()
+        student_to_update.status = status
+        student_to_update.company_id = companyInfo
+
         db.session.commit()
+
     return render_template('match_student.html',
         form=form,
         student_list=student_list,
         company_list=company_list)
+        
+    
 
 @flaskApp.route('/Prepare_Email')
 def prepare_email():
