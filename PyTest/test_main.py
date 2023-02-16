@@ -7,7 +7,9 @@ from selenium.webdriver.common.by import By
 
 def test_setUp():
     global driver
-    driver = webdriver.Chrome(service=Service(executable_path=ChromeDriverManager().install()))
+    options = ChromeDriverManager().install()
+    options.headless = True
+    driver = webdriver.Chrome(service=Service(executable_path=options))
 
     global linkToReturnTo
     linkToReturnTo = "http://127.0.0.1:5221/Main"
