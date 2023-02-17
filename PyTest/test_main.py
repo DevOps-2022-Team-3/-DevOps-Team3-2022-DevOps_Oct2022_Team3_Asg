@@ -4,13 +4,17 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
+from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.select import Select
 from selenium.webdriver.support.wait import WebDriverWait
 import time
 
 def test_setUp():
     global driver
-    driver = webdriver.Chrome(service=Service(executable_path=ChromeDriverManager().install()))
+ 
+    browser_options = Options()
+    browser_options.headless = True
+    driver = webdriver.Chrome(service=Service(executable_path=ChromeDriverManager().install()), options=browser_options)
 
     global linkToReturnTo
     linkToReturnTo = "http://127.0.0.1:5221/Main"
