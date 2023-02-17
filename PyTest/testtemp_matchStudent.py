@@ -4,8 +4,9 @@ from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
-
 from selenium.webdriver.support.select import Select
+from selenium.webdriver.support.wait import WebDriverWait
+import time
 
 def test_setUp():
     global driver
@@ -23,36 +24,53 @@ def goToNavPage(pageLink):
 
 def test_enterUploadData():
     driver.get(linkToReturnTo)
-    goToNavPage("upload_data_btn")
+    goToNavPage("upload-data-btn")
     assert driver.title == "Upload Data"
 
 def test_enterMatchStudent():
     driver.get(linkToReturnTo)
-    goToNavPage("match_student_btn")
+    goToNavPage("match-student-btn")
     assert driver.title == "Match Students"
 
 def test_enterPrepareEmail():
     driver.get(linkToReturnTo)
-    goToNavPage("prepare_email_btn")
+    goToNavPage("prepare-email-btn")
     assert driver.title == "Prepare Email"
 
 def test_enterSettings():
     driver.get(linkToReturnTo)
-    goToNavPage("settings_btn")
+    goToNavPage("settings-btn")
     assert driver.title == "Settings"
 ################## Test navigation bar (Keep this for every page) ##################
 
 def test_updateCompanyInfo():
     driver.get(linkToReturnTo)
+    #WebDriverWait(driver, timeout=10).until(lambda d: d.find_element(By.ID,"match-student-table"))
+    
     #Find table
     table = driver.find_element(by=By.ID, value="match-student-table")
     students = table.find_elements(by=By.CLASS_NAME, value="student")
 
     for student in students:
-        companyInfo = student.find_element(by=By.CLASS_NAME, value="companyInfo")
-        if Select(companyInfo).first_selected_option != "Unassigned":
-            companyInfo.click()
+        companyInfo = student.find_element(by=By.ID, value="companyInfo")
+        select = Select(companyInfo)
+        if select.first_selected_option.text != "None":
+            select.select_by_value("None")
+            test_updateCompanyInfo()
+    
+    #Find table
+    # table = driver.find_element(by=By.ID, value="match-student-table")
+    # students = table.find_elements(by=By.CLASS_NAME, value="student")
+    
+    # success = True
 
+    # for student in students:
+    #     companyInfo = student.find_element(by=By.ID, value="companyInfo")
+    #     select = Select(companyInfo)
+    #     if select.first_selected_option.text != "None":
+    #         success = False
+    
+    # assert success == True
 
 def test_updateStatus():
     print()

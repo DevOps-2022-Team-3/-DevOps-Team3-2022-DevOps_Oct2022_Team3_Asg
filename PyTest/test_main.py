@@ -5,6 +5,9 @@ from selenium.webdriver.chrome.service import Service
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.options import Options
+from selenium.webdriver.support.select import Select
+from selenium.webdriver.support.wait import WebDriverWait
+import time
 
 def test_setUp():
     global driver
@@ -25,38 +28,38 @@ def goToNavPage(pageLink):
 
 def test_enterUploadData():
     driver.get(linkToReturnTo)
-    goToNavPage("upload_data_btn")
+    goToNavPage("upload-data-btn")
     assert driver.title == "Upload Data"
 
 def test_enterMatchStudent():
     driver.get(linkToReturnTo)
-    goToNavPage("match_student_btn")
+    goToNavPage("match-student-btn")
     assert driver.title == "Match Students"
 
 def test_enterPrepareEmail():
     driver.get(linkToReturnTo)
-    goToNavPage("prepare_email_btn")
+    goToNavPage("prepare-email-btn")
     assert driver.title == "Prepare Email"
 
 def test_enterSettings():
     driver.get(linkToReturnTo)
-    goToNavPage("settings_btn")
+    goToNavPage("settings-btn")
     assert driver.title == "Settings"
 ################## Test navigation bar (Keep this for every page) ##################
 
 def test_main_enterUploadData():
     driver.get(linkToReturnTo)
-    goToNavPage("main_upload_data_btn")
+    goToNavPage("main-upload-data-btn")
     assert driver.title == "Upload Data"
 
 def test_main_enterMatchStudent():
     driver.get(linkToReturnTo)
-    goToNavPage("main_match_student_btn")
+    goToNavPage("main-match-student-btn")
     assert driver.title == "Match Students"
 
 def test_main_enterPrepareEmail():
     driver.get(linkToReturnTo)
-    goToNavPage("main_prepare_email_btn")
+    goToNavPage("main-prepare-email-btn")
     assert driver.title == "Prepare Email"
 
 ######## End Code (Keep this for every page) ########
